@@ -74,6 +74,9 @@ public partial class PartyCharacter
 
 static public class AssignmentPart1
 {
+    const int partyCharacterSaveDataSignifier = 0;
+    const int equipmentSaveDataSignifier = 1;
+    const int afflictionSaveDataSignifier = 2;
 
     static public void SavePartyButtonPressed()
     {
@@ -84,7 +87,12 @@ static public class AssignmentPart1
         {
             //We are saving
 
-            sw.WriteLine(pc.classID + "," + pc.health + "," + pc.mana + "," + pc.strength + "," + pc.agility + "," + pc.wisdom);
+            sw.WriteLine(partyCharacterSaveDataSignifier + "," + pc.classID + "," + pc.health + "," + pc.mana + "," + pc.strength + "," + pc.agility + "," + pc.wisdom);
+
+            foreach(int equipID in pc.equipment)
+            {
+                sw.WriteLine(equipmentSaveDataSignifier + "," + equipID);
+            }
         }
         sw.Close();
     }
@@ -107,8 +115,26 @@ static public class AssignmentPart1
                     Debug.Log(i);
                 }
 
-                PartyCharacter pc = new PartyCharacter(int.Parse(csv[0]), int.Parse(csv[1]), int.Parse(csv[2]), int.Parse(csv[3]), int.Parse(csv[4]), int.Parse(csv[5]));
-                GameContent.partyCharacters.AddLast(pc);
+                int SaveDataSignifier = int.Parse(csv[0]);
+
+                if(SaveDataSignifier == partyCharacterSaveDataSignifier)
+                {
+                    PartyCharacter pc = new PartyCharacter(int.Parse(csv[1]), int.Parse(csv[2]), int.Parse(csv[3]), int.Parse(csv[4]), int.Parse(csv[5]), int.Parse(csv[6]));
+                    GameContent.partyCharacters.AddLast(pc);
+                }
+
+                else if(SaveDataSignifier == equipmentSaveDataSignifier)
+                {
+                    GameContent.partyCharacters.Last.Value.equipment.AddLast(int.Parse(csv[1]));
+                }
+
+                else if (SaveDataSignifier == afflictionSaveDataSignifier)
+                {
+                    // place holder
+                }
+
+                //PartyCharacter pc = new PartyCharacter(int.Parse(csv[0]), int.Parse(csv[1]), int.Parse(csv[2]), int.Parse(csv[3]), int.Parse(csv[4]), int.Parse(csv[5]));
+                //GameContent.partyCharacters.AddLast(pc);
             }
         }
         
@@ -128,7 +154,7 @@ static public class AssignmentPart1
 //  This will enable the needed UI/function calls for your to proceed with your assignment.
 static public class AssignmentConfiguration
 {
-    public const int PartOfAssignmentThatIsInDevelopment = 1;
+    public const int PartOfAssignmentThatIsInDevelopment = 2;
 }
 
 /*
@@ -187,21 +213,23 @@ static public class AssignmentPart2
     static public void LoadPartyDropDownChanged(string selectedName)
     {
         GameContent.RefreshUI();
+        Debug.Log("l");
     }
 
     static public void SavePartyButtonPressed()
     {
         GameContent.RefreshUI();
+        Debug.Log("r");
     }
 
     static public void NewPartyButtonPressed()
     {
-
+        Debug.Log("n");
     }
 
     static public void DeletePartyButtonPressed()
     {
-
+        Debug.Log("d");
     }
 
 }
