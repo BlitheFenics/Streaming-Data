@@ -181,7 +181,7 @@ public class SystemManager : MonoBehaviour
         GameContent.RerollParty();
         RefreshUI();
     }
-
+    
     public void SaveButtonPressed()
     {
         AssignmentPart1.SavePartyButtonPressed();
@@ -192,7 +192,7 @@ public class SystemManager : MonoBehaviour
     {
         AssignmentPart1.LoadPartyButtonPressed();
     }
-
+    
     public void LoadDropDownChanged()
     {
         int menuIndex = loadPartyDropDown.GetComponent<Dropdown>().value;
